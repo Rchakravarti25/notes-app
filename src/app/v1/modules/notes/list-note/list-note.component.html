@@ -29,16 +29,16 @@
         </ng-container>
         
         <ng-container [matColumnDef]="initColumns[4]?.name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ initColumns[5]?.display}} </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ initColumns[4]?.display}} </th>
             <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'medium'}} </td>
         </ng-container>
         <!-- Symbol Column -->
         <ng-container [matColumnDef]="initColumns[5]?.name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{initColumns[6]?.display}} </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{initColumns[5]?.display}} </th>
             <td mat-cell *matCellDef="let element"> {{element.updatedAt | date:'medium'}} </td>
         </ng-container>
         <ng-container [matColumnDef]="initColumns[6]?.name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{initColumns[7]?.display}} </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{initColumns[6]?.display}} </th>
             <td mat-cell *matCellDef="let element"> <button mat-icon-button color="primary"
                     aria-label="icon">
                     <mat-icon>delete</mat-icon>
