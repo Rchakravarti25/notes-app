@@ -16,10 +16,12 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddNoteComponent } from './add-note/add-note.component';
 import { ListNoteComponent } from './list-note/list-note.component';
+import { DeleteNoteComponent } from './delete-note/delete-note.component';
+import { UpdateNoteComponent } from './update-note/update-note.component';
 
 
 @NgModule({
-    declarations: [AddNoteComponent, ListNoteComponent],
+    declarations: [AddNoteComponent, ListNoteComponent, DeleteNoteComponent, UpdateNoteComponent],
     imports: [
         CommonModule,
         NotesRoutingModule,
@@ -32,6 +34,6 @@ import { ListNoteComponent } from './list-note/list-note.component';
         MatDialogModule, MatInputModule, MatAutocompleteModule, MatSelectModule
 
     ],
-    entryComponents : [AddNoteComponent]
+    entryComponents : [AddNoteComponent,DeleteNoteComponent, UpdateNoteComponent]
 })
 export class NotesModule { }

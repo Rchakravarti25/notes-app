@@ -2,17 +2,19 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 
 import { AddNoteComponent } from "../add-note/add-note.component";
 import { NotesService } from '../../../services/notes/notes.service';
+import { DeleteNoteComponent } from '../delete-note/delete-note.component';
+import { UpdateNoteComponent } from '../update-note/update-note.component';
 
 
 export interface Note {
     _id: string;
     note_name: string;
-    note_text : string;
-    note_date : Date;
+    note_text: string;
+    note_date: Date;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -27,6 +29,7 @@ export interface Data {
     styleUrls: ['./list-note.component.css']
 })
 export class ListNoteComponent implements OnInit {
+    @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
     initColumns: any[] = [
         { name: "sno", display: "SNo." },
@@ -59,16 +62,68 @@ export class ListNoteComponent implements OnInit {
             this.dataSource.sort = this.sort;
         }, 500);
     }
-    openDialogAddTransaction() {
+    openDialogAddNote() {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.height = "60%";
         dialogConfig.width = "60%";
-        dialogConfig.data = { name: "some name" };
+        dialogConfig.data = { name: "Note" };
+        dialogConfig.disableClose = true;
         let dialogRef = this.matDialog.open(AddNoteComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(value => {
-            console.log(`Dialog sent: ${value}`);
+            console.log(`Dialog sent: ${JSON.stringify(value)}`);
+            if (value.event == "cancel") {
+                console.log(value.event);
+            } else {
+                var data = this.dataSource.data;
+                data.unshift(value.data);
+                this.dataSource.data = data;
+            }
         });
     }
+    openDialogDeleteNote(note: any) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.height = "30%";
+        dialogConfig.width = "30%";
+        dialogConfig.data = note;
+        dialogConfig.disableClose = true;
+        let dialogRef = this.matDialog.open(DeleteNoteComponent, dialogConfig);
 
+        dialogRef.afterClosed().subscribe(value => {
+            console.log(`Dialog sent: ${JSON.stringify(value)}`);
+            if (value.event == "cancel") {
+                console.log(value.event);
+            } else {
+                var data = this.dataSource.data;
+                this.dataSource.data = data.filter((val, key) => {
+                    return val._id != value.data;
+                });
+            }
+        });
+    }
+    openDialogUpdateNote(note: any) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.height = "60%";
+        dialogConfig.width = "60%";
+        dialogConfig.data = note;
+        dialogConfig.disableClose = true;
+        let dialogRef = this.matDialog.open(UpdateNoteComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(value => {
+            console.log(`Dialog sent: ${JSON.stringify(value)}`);
+            if (value.event == "cancel") {
+                console.log(value.event);
+            } else {
+                console.log(this.dataSource.data);
+                var data = this.dataSource.data;
+                this.dataSource = data.filter((val, key) => {
+                    if (val._id == value.id) {
+                        val.note_name = value.note_name;
+                        val.note_text = value.note_text;
+                    }
+                    return true;
+                });
+            }
+        });
+    }
 }

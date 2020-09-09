@@ -18,4 +18,12 @@ export class NotesService {
     public createNote(obj: any) {
         return this.httpClient.post(`${this.apiURL}/create-note`, obj);
     }
+    //delete note
+    public deleteNote(id: any) {
+        return this.httpClient.delete(`${this.apiURL}/delete-note/${id}`);
+    }
+    //update note
+    public updateNote(id: string, obj: any) {
+        return this.httpClient.put(`${this.apiURL}/update-note/${id}`, obj);
+    }
 }
