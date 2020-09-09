@@ -116,12 +116,21 @@ export class ListNoteComponent implements OnInit {
             } else {
                 console.log(this.dataSource.data);
                 var data = this.dataSource.data;
-                this.dataSource = data.filter((val, key) => {
-                    if (val._id == value.id) {
-                        val.note_name = value.note_name;
-                        val.note_text = value.note_text;
+                this.dataSource = data.map((val, key) => {
+                    if (val._id == value.data.id) {
+                        return {
+                            _id : val._id,
+                            note_name : value.data.note_name,
+                            note_text : value.data.note_text,
+                            note_date : val.note_date,
+                            createdAt : val.createdAt,
+                            updatedAt : val.updatedAt,
+                            __v : val.__v
+                        }
+
+                    } else {
+                        return val;
                     }
-                    return true;
                 });
             }
         });
